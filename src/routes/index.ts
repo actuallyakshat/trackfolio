@@ -1,12 +1,11 @@
 import express from "express";
-import authRouter from "./auth";
 import authMiddleware from "../middleware/auth";
+import applicationsRouter from "./applications";
+import authRouter from "./auth";
+
 const indexRouter = express.Router();
 
 indexRouter.use("/auth", authRouter);
-indexRouter.get("/me", authMiddleware, (req, res) => {
-  const name = req.user?.name;
-  res.send("Hello " + name);
-});
+indexRouter.use("/application", authMiddleware, applicationsRouter);
 
 export default indexRouter;

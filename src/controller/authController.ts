@@ -9,7 +9,7 @@ dotenv.config();
 
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET as string;
 
-const register = async (req: Request, res: Response): Promise<any> => {
+async function register(req: Request, res: Response): Promise<any> {
   try {
     const { name, username, password } = req.body;
 
@@ -56,9 +56,9 @@ const register = async (req: Request, res: Response): Promise<any> => {
       .status(500)
       .json({ message: "Error creating user", error: error.message });
   }
-};
+}
 
-const login = async (req: Request, res: Response): Promise<any> => {
+async function login(req: Request, res: Response): Promise<any> {
   try {
     const { username, password } = req.body;
 
@@ -103,9 +103,9 @@ const login = async (req: Request, res: Response): Promise<any> => {
     const error = e as Error;
     res.status(500).json({ message: "Error logging in", error: error.message });
   }
-};
+}
 
-const refresh = async (req: Request, res: Response): Promise<any> => {
+async function refresh(req: Request, res: Response): Promise<any> {
   try {
     const refreshToken = req.cookies.refreshToken;
 
@@ -147,9 +147,9 @@ const refresh = async (req: Request, res: Response): Promise<any> => {
   } catch (error) {
     res.status(401).json({ message: "Invalid refresh token" });
   }
-};
+}
 
-const logout = async (req: Request, res: Response): Promise<any> => {
+async function logout(req: Request, res: Response): Promise<any> {
   try {
     const refreshToken = req.cookies.refreshToken;
 
@@ -170,6 +170,38 @@ const logout = async (req: Request, res: Response): Promise<any> => {
       .status(500)
       .json({ message: "Error logging out", error: error.message });
   }
-};
+}
 
-export { register, login, refresh, logout };
+async function deleteUser(req: Request, res: Response): Promise<any> {
+  try {
+    if (!req.user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await User.findByIdAndDelete(req.user._id);
+
+    return res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "An error occurred" });
+  }
+}
+
+async function me(req: Request, res: Response): Promise<any> {
+  try {
+    const user = req.user;
+
+    if (user) {
+      user.refreshToken = undefined;
+    }
+
+    res.json({
+      user: user,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+}
+
+export { register, login, refresh, logout, me, deleteUser };

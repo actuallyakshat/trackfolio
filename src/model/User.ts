@@ -20,6 +20,12 @@ const userSchema = new Schema(
     refreshToken: {
       type: String,
     },
+    applications: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Application",
+      },
+    ],
   },
   {
     timestamps: true,

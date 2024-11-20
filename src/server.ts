@@ -1,10 +1,10 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import dotenv from "dotenv";
 import express from "express";
 import { connectDB } from "./config/dbConnection";
 import indexRouter from "./routes";
 import { getEndPointsHTML } from "./util/getEndPointsHTML";
-import dotenv from "dotenv";
 
 dotenv.config();
 
