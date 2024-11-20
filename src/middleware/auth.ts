@@ -12,9 +12,7 @@ const authMiddleware = async (
   next: NextFunction
 ): Promise<any> => {
   try {
-    console.log("Cookies:", req.cookies);
     const token = req.cookies?.accessToken;
-    console.log(token);
 
     if (!token) {
       return res
@@ -28,8 +26,6 @@ const authMiddleware = async (
     if (!user) {
       return res.status(401).json({ message: "User not found." });
     }
-
-    console.log(user);
 
     req.user = user;
     next();

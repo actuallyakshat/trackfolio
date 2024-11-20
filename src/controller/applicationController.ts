@@ -31,8 +31,6 @@ export async function getApplication(
       return res.status(401).json({ message: "User not authenticated" });
     }
 
-    console.log(req.params.id);
-
     const application = await Application.findOne({
       userId: req.user._id,
       _id: req.params.id,
