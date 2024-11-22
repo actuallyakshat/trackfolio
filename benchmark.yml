@@ -13,7 +13,7 @@ scenarios:
       - get:
           url: "/api/v1/auth/me"
           headers:
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQwMDU4MWNkMGZiNTUxYzYzOTFjYjAiLCJpYXQiOjE3MzIyNDkyNzYsImV4cCI6MTczMjI1MDE3Nn0.WBX989-K5oWA4MrwV3A1Q9TEO4julrHFwGJxFCC1bFc"
+            Authorization: "Bearer DEMO_TOKEN"
           capture:
             - json: "$.user"
               as: "userData" # Store the captured 'user' field in 'userData'

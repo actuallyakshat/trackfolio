@@ -44,7 +44,6 @@ const applicationSchema = new Schema(
     openingUrl: {
       type: String,
       required: true,
-      unique: true,
       validate: {
         validator: function (v: string) {
           const urlRegex =
