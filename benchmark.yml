@@ -1,0 +1,22 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm up phase"
+    - duration: 120
+      arrivalRate: 20
+      name: "Peak load phase"
+
+scenarios:
+  - flow:
+      - get:
+          url: "/api/v1/auth/me"
+          headers:
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQwMDU4MWNkMGZiNTUxYzYzOTFjYjAiLCJpYXQiOjE3MzIyNDkyNzYsImV4cCI6MTczMjI1MDE3Nn0.WBX989-K5oWA4MrwV3A1Q9TEO4julrHFwGJxFCC1bFc"
+          capture:
+            - json: "$.user"
+              as: "userData" # Store the captured 'user' field in 'userData'
+          log:
+            - body: true
+            - statusCode: true

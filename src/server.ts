@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { connectDB } from "./config/dbConnection";
+import redisConnection from "./config/redis";
+import { rateLimit } from "./middleware/rate-limit";
 import indexRouter from "./routes";
 import { getEndPointsHTML } from "./util/getEndPointsHTML";
 
@@ -11,12 +13,14 @@ dotenv.config();
 const PORT = process.env.PORT as string;
 
 const app = express();
-//I will only use cors for development because we will serve the frontend from the same server as static files
+const redis = redisConnection;
+connectDB();
+
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 app.use(cookieParser());
 
-connectDB();
+app.use(rateLimit());
 
 app.get("/api/v1", (req, res) => {
   const endPointsHTML = getEndPointsHTML();

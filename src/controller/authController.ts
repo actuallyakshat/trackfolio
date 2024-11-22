@@ -4,6 +4,7 @@ import { generateTokens } from "../config/jwt";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import redis from "../config/redis";
 
 dotenv.config();
 
@@ -78,6 +79,10 @@ async function login(req: Request, res: Response): Promise<any> {
     user.refreshToken = refreshToken;
     await user.save();
 
+    user.password = "";
+
+    await redis.set(`user:${user._id}`, JSON.stringify(user));
+
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -116,6 +121,7 @@ async function refresh(req: Request, res: Response): Promise<any> {
     const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET) as {
       userId: string;
     };
+
     const user = await User.findById(decoded.userId as string);
 
     if (!user || user.refreshToken !== refreshToken) {
@@ -158,6 +164,7 @@ async function logout(req: Request, res: Response): Promise<any> {
         userId: string;
       };
       await User.findByIdAndUpdate(decoded.userId, { refreshToken: null });
+      await redis.del(`user:${decoded.userId}`);
     }
 
     res.clearCookie("accessToken");
@@ -180,6 +187,8 @@ async function deleteUser(req: Request, res: Response): Promise<any> {
 
     await User.findByIdAndDelete(req.user._id);
 
+    await redis.del(`user:${req.user._id}`);
+
     return res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     console.error(error);
@@ -190,6 +199,8 @@ async function deleteUser(req: Request, res: Response): Promise<any> {
 async function me(req: Request, res: Response): Promise<any> {
   try {
     const user = req.user;
+
+    if (!user) return res.status(401).json({ message: "Unauthorized" });
 
     if (user) {
       user.refreshToken = undefined;

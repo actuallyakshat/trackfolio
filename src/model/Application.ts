@@ -59,6 +59,14 @@ const applicationSchema = new Schema(
       ref: "User",
       required: true,
     },
+    resumeUploaded: {
+      type: String,
+      default: null,
+    },
+    interviewScheduledDate: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true }
 );

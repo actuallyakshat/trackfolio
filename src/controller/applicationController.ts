@@ -1,19 +1,25 @@
 import { Request, Response } from "express";
 import Application from "../model/Application";
 import User from "../model/User";
+import redis from "../config/redis";
 
 export async function getApplications(
   req: Request,
   res: Response
 ): Promise<any> {
   try {
-    if (!req.user || !req.user.id) {
+    if (!req.user || !req.user._id) {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
     const applications = await Application.find({
       userId: req.user._id,
     });
+
+    await redis.set(
+      `applications:${req.user._id}`,
+      JSON.stringify(applications)
+    );
 
     return res.status(200).json({ applications });
   } catch (error) {
@@ -27,7 +33,7 @@ export async function getApplication(
   res: Response
 ): Promise<any> {
   try {
-    if (!req.user || !req.user.id) {
+    if (!req.user || !req.user._id) {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
@@ -52,7 +58,7 @@ export async function createApplication(
   res: Response
 ): Promise<any> {
   try {
-    if (!req.user || !req.user.id) {
+    if (!req.user || !req.user._id) {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
@@ -68,9 +74,14 @@ export async function createApplication(
       userId: req.user._id,
     });
 
-    await User.findByIdAndUpdate(req.user._id, {
-      $push: { applications: application._id },
-    });
+    const response = await User.findByIdAndUpdate(
+      req.user._id,
+      { $push: { applications: application._id } },
+      { new: true }
+    );
+
+    await redis.set(`user:${req.user._id}`, JSON.stringify(response));
+    await redis.del(`applications:${req.user._id}`);
 
     return res.status(201).json({ application });
   } catch (error) {
@@ -84,7 +95,7 @@ export async function updateApplication(
   res: Response
 ): Promise<any> {
   try {
-    if (!req.user || !req.user.id) {
+    if (!req.user || !req.user._id) {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
@@ -130,6 +141,8 @@ export async function updateApplication(
 
     await application.save();
 
+    await redis.del(`applications:${req.user._id}`);
+
     return res.status(200).json({ application });
   } catch (error) {
     console.error(error);
@@ -142,7 +155,7 @@ export async function deleteApplication(
   res: Response
 ): Promise<any> {
   try {
-    if (!req.user || !req.user.id) {
+    if (!req.user || !req.user._id) {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
@@ -156,6 +169,8 @@ export async function deleteApplication(
     }
 
     await Application.findByIdAndDelete(req.params.id);
+
+    await await redis.del(`applications:${req.user._id}`);
 
     return res
       .status(200)
