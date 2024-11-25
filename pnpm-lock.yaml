@@ -11,6 +11,9 @@ importers:
       bcrypt:
         specifier: ^5.1.1
         version: 5.1.1(encoding@0.1.13)
+      cloudinary:
+        specifier: ^2.5.1
+        version: 2.5.1
       cookie-parser:
         specifier: ^1.4.7
         version: 1.4.7
@@ -23,6 +26,9 @@ importers:
       express:
         specifier: ^4.21.1
         version: 4.21.1
+      express-fileupload:
+        specifier: ^1.5.1
+        version: 1.5.1
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
@@ -45,6 +51,9 @@ importers:
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.0
+      '@types/express-fileupload':
+        specifier: ^1.5.1
+        version: 1.5.1
       '@types/jsonwebtoken':
         specifier: ^9.0.7
         version: 9.0.7
@@ -1199,6 +1208,9 @@ packages:
   '@types/body-parser@1.19.5':
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
 
+  '@types/busboy@1.5.4':
+    resolution: {integrity: sha512-kG7WrUuAKK0NoyxfQHsVE6j1m01s6kMma64E+OZenQABMQyTJop1DumUWcLwAQ2JzpefU7PDYoRDKl8uZosFjw==}
+
   '@types/cacheable-request@6.0.3':
     resolution: {integrity: sha512-IQ3EbTzGxIigb1I3qPZc1rWJnH0BmSKv5QYTalEwweFvyBDLSAe24zP0le/hyi7ecGfZVlIVAg4BZqb8WBwKqw==}
 
@@ -1210,6 +1222,9 @@ packages:
 
   '@types/cors@2.8.17':
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
+
+  '@types/express-fileupload@1.5.1':
+    resolution: {integrity: sha512-DllImBVI1lCyjl2klky/TEwk60mbNebgXv1669h66g9TfptWSrEFq5a/raHSutaFzjSm1tmn9ypdNfu4jPSixQ==}
 
   '@types/express-serve-static-core@5.0.1':
     resolution: {integrity: sha512-CRICJIl0N5cXDONAdlTv5ShATZ4HEwk6kDDIW2/w9qOWKg+NU/5F8wYRWCrONad0/UKkloNSmmyN/wX4rtpbVA==}
@@ -1529,6 +1544,10 @@ packages:
   buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
 
+  busboy@1.6.0:
+    resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
+    engines: {node: '>=10.16.0'}
+
   bytes@3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
     engines: {node: '>= 0.8'}
@@ -1642,6 +1661,10 @@ packages:
   clone@1.0.4:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
+
+  cloudinary@2.5.1:
+    resolution: {integrity: sha512-CNg6uU53Hl4FEVynkTGpt5bQEAQWDHi3H+Sm62FzKf5uQHipSN2v7qVqS8GRVqeb0T1WNV+22+75DOJeRXYeSQ==}
+    engines: {node: '>=9'}
 
   cluster-key-slot@1.1.2:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
@@ -2040,6 +2063,10 @@ packages:
 
   exponential-backoff@3.1.1:
     resolution: {integrity: sha512-dX7e/LHVJ6W3DE1MHWi9S1EYzDESENfLrYohG2G++ovZrYOkm4Knwa0mc1cn84xJOR4KEU0WSchhLbd0UklbHw==}
+
+  express-fileupload@1.5.1:
+    resolution: {integrity: sha512-LsYG1ALXEB7vlmjuSw8ABeOctMp8a31aUC5ZF55zuz7O2jLFnmJYrCv10py357ky48aEoBQ/9bVXgFynjvaPmA==}
+    engines: {node: '>=12.0.0'}
 
   express@4.21.1:
     resolution: {integrity: sha512-YSFlK1Ee0/GC8QaO91tHcDxJiE/X4FbpAyQWkxAvG6AXCuR65YzK8ua6D9hvi/TzUfZMpc+BwuM1IPw8fmQBiQ==}
@@ -3519,6 +3546,10 @@ packages:
   stoppable@1.1.0:
     resolution: {integrity: sha512-KXDYZ9dszj6bzvnEMRYvxgeTHU74QBFL54XKtP3nyMuJ81CFYtABZ3bAzL2EdFUaEwJOBOgENyFj3R7oTzDyyw==}
     engines: {node: '>=4', npm: '>=6'}
+
+  streamsearch@1.1.0:
+    resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
+    engines: {node: '>=10.0.0'}
 
   string-length@6.0.0:
     resolution: {integrity: sha512-1U361pxZHEQ+FeSjzqRpV+cu2vTzYeWeafXFLykiFlv4Vc0n3njgU8HrMbyik5uwm77naWMuVG8fhEF+Ovb1Kg==}
@@ -5933,6 +5964,10 @@ snapshots:
       '@types/connect': 3.4.38
       '@types/node': 22.9.1
 
+  '@types/busboy@1.5.4':
+    dependencies:
+      '@types/node': 22.9.1
+
   '@types/cacheable-request@6.0.3':
     dependencies:
       '@types/http-cache-semantics': 4.0.4
@@ -5951,6 +5986,11 @@ snapshots:
   '@types/cors@2.8.17':
     dependencies:
       '@types/node': 22.9.1
+
+  '@types/express-fileupload@1.5.1':
+    dependencies:
+      '@types/busboy': 1.5.4
+      '@types/express': 5.0.0
 
   '@types/express-serve-static-core@5.0.1':
     dependencies:
@@ -6448,6 +6488,10 @@ snapshots:
       base64-js: 1.5.1
       ieee754: 1.2.1
 
+  busboy@1.6.0:
+    dependencies:
+      streamsearch: 1.1.0
+
   bytes@3.1.2: {}
 
   c8@9.1.0:
@@ -6602,6 +6646,11 @@ snapshots:
       mimic-response: 1.0.1
 
   clone@1.0.4: {}
+
+  cloudinary@2.5.1:
+    dependencies:
+      lodash: 4.17.21
+      q: 1.5.1
 
   cluster-key-slot@1.1.2: {}
 
@@ -6966,6 +7015,10 @@ snapshots:
   events@3.3.0: {}
 
   exponential-backoff@3.1.1: {}
+
+  express-fileupload@1.5.1:
+    dependencies:
+      busboy: 1.6.0
 
   express@4.21.1:
     dependencies:
@@ -8563,6 +8616,8 @@ snapshots:
   statuses@2.0.1: {}
 
   stoppable@1.1.0: {}
+
+  streamsearch@1.1.0: {}
 
   string-length@6.0.0:
     dependencies:
