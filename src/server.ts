@@ -1,4 +1,3 @@
-import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
@@ -7,6 +6,7 @@ import { connectDB } from "./config/dbConnection";
 import { rateLimit } from "./middleware/rate-limit";
 import indexRouter from "./routes";
 import { getEndPointsHTML } from "./util/getEndPointsHTML";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -15,9 +15,14 @@ const PORT = process.env.PORT as string;
 const app = express();
 connectDB();
 
+//CORS
 app.use(cors({ origin: "http://localhost:5173" }));
+
+//PARSERS
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(rateLimit());
 
 app.use(
   fileUpload({
@@ -26,8 +31,6 @@ app.use(
     tempFileDir: "/tmp/",
   })
 );
-
-app.use(rateLimit());
 
 app.get("/api/v1", (req, res) => {
   const endPointsHTML = getEndPointsHTML();
