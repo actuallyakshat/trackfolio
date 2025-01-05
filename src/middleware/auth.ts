@@ -20,16 +20,17 @@ const authMiddleware = async (
         .status(401)
         .json({ message: "Access denied. No token provided." });
     }
-
     const decoded = jwt.verify(token, JWT_ACCESS_SECRET) as { userId: string };
 
     const cacheKey = `user:${decoded.userId}`;
 
-    const cachedUser = await redis.get(cacheKey);
+    const cachedUser = await redis.get<string>(cacheKey);
 
     if (cachedUser) {
       console.log("Cache hit for user");
-      req.user = JSON.parse(cachedUser);
+      const parsedUser =
+        typeof cachedUser === "string" ? JSON.parse(cachedUser) : cachedUser;
+      req.user = parsedUser;
       next();
       return;
     }
@@ -38,15 +39,17 @@ const authMiddleware = async (
 
     const user = await User.findById(decoded.userId).select("-password");
 
-    await redis.set(cacheKey, JSON.stringify(user));
-
     if (!user) {
       return res.status(401).json({ message: "User not found." });
     }
 
+    const userObject = user.toObject();
+    await redis.set(cacheKey, JSON.stringify(userObject));
+
     req.user = user;
     next();
   } catch (e) {
+    console.log(e);
     const error = e as Error;
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({ message: "Token expired." });

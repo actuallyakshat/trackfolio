@@ -80,8 +80,8 @@ async function login(req: Request, res: Response): Promise<any> {
     await user.save();
 
     user.password = "";
-
-    await redis.set(`user:${user._id}`, JSON.stringify(user));
+    const userObject = user.toObject();
+    await redis.set(`user:${user._id}`, JSON.stringify(userObject));
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,

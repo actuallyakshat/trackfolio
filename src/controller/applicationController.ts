@@ -18,7 +18,7 @@ export async function getApplications(
 
     await redis.set(
       `applications:${req.user._id}`,
-      JSON.stringify(applications)
+      JSON.stringify(applications.map((app) => app.toObject()))
     );
 
     return res.status(200).json({ applications });
@@ -80,7 +80,8 @@ export async function createApplication(
       { new: true }
     );
 
-    await redis.set(`user:${req.user._id}`, JSON.stringify(response));
+    const responseObject = response?.toObject();
+    await redis.set(`user:${req.user._id}`, JSON.stringify(responseObject));
     await redis.del(`applications:${req.user._id}`);
 
     return res.status(201).json({ application });
